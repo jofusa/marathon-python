@@ -82,6 +82,7 @@ def see_complext_app_running(context, which):
 def wait_deployment_finish(context, which):
     while True:
         time.sleep(1)
+
         app = context.client.get_app('test-%s-app' % which, embed_tasks=True)
         if not app.deployments:
             break
