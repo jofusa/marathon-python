@@ -25,9 +25,9 @@ before_install:
   - docker run hello-world
   - docker version
   - docker info
-  - cat /etc/hosts # optionally check the content *before*
-  - sudo hostname "$(hostname | cut -c1-63)"
-  - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
+  #- cat /etc/hosts # optionally check the content *before*
+  #- sudo hostname "$(hostname | cut -c1-63)"
+  #- sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
   - cat /etc/hosts # optionally check the content *after*
 
 # Work around and avoid travis on gce as it is dog slow
