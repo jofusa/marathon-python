@@ -59,7 +59,7 @@ class MarathonClient(object):
                                             auth=self.auth, timeout=self.timeout)
                 marathon.log.info('Got response from %s', server)
             except requests.exceptions.RequestException as e:
-                marathon.log.error('Error while calling %s: %s', url, e.message)
+                marathon.log.error('Error while calling %s: %s', url, e)
 
         if response is None:
             raise MarathonError('No remaining Marathon servers to try')
