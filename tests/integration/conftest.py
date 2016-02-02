@@ -122,7 +122,7 @@ class MesosMasterDockerContainer(AbstractDockerContainer):
 
     def build_container(self):
         self._container = self.docker_client.create_container(
-            command='--zk=zk://127.0.0.1:2181',
+            command='--zk=zk://127.0.0.1:2181 --ip=127.0.0.1',
             image=self.full_image_name,
             environment=self.environment,
             host_config=create_host_config(
@@ -138,7 +138,7 @@ class MesosSlaveDockerContainer(AbstractDockerContainer):
 
     def build_container(self):
         self._container = self.docker_client.create_container(
-            command='--master=127.0.0.1:5050',
+            command='--master=127.0.0.1:5050 --ip=127.0.0.1',
             image=self.full_image_name,
             environment=self.environment,
             host_config=create_host_config(
