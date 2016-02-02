@@ -118,19 +118,27 @@ class ZookeeperDockerContainer(AbstractDockerContainer):
 class MesosMasterDockerContainer(AbstractDockerContainer):
     repository = 'mesosphere'
     image_name = 'mesos-master'
-    tag = '0.26.0-0.2.145.ubuntu1404'
     network_mode = 'host'
+
+    def build_container(self):
+        self._container = self.docker_client.create_container(
+            command='--zk=zk://127.0.0.1:2181',
+            image=self.full_image_name,
+            environment=self.environment,
+            host_config=create_host_config(
+                network_mode=self.network_mode
+            )
+        )
 
 
 class MesosSlaveDockerContainer(AbstractDockerContainer):
     repository = 'mesosphere'
     image_name = 'mesos-slave'
-    tag = '0.26.0-0.2.145.ubuntu1404'
     network_mode = 'host'
 
     def build_container(self):
         self._container = self.docker_client.create_container(
-            command='--master=localhost:5050',
+            command='--master=127.0.0.1:5050',
             image=self.full_image_name,
             environment=self.environment,
             host_config=create_host_config(
@@ -143,7 +151,7 @@ class MarathonDockerContainer(AbstractDockerContainer):
     image_name = 'marathon'
     network_mode = 'host'
     env = {
-        'MARATHON_MASTER': 'localhost:5050',
+        'MARATHON_MASTER': '127.0.0.1:5050',
         'MARATHON_HTTP_PORT': 8081
     }
 
@@ -161,6 +169,7 @@ def zookeeper_container(docker_client):
 @pytest.yield_fixture(scope='session')
 def mesos_master_container(docker_client):
     MESOSVERSION = os.getenv('MESOSVERSION', '0.24.1-0.2.35.ubuntu1404')
+    print("STATRING MASTER WITH: {}".format(MESOSVERSION))
     container = MesosMasterDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
@@ -172,6 +181,7 @@ def mesos_master_container(docker_client):
 @pytest.yield_fixture(scope='session')
 def mesos_slave_container(docker_client):
     MESOSVERSION = os.getenv('MESOSVERSION', '0.24.1-0.2.35.ubuntu1404')
+    print("STATRING SLAVE WITH: {}".format(MESOSVERSION))
     container = MesosSlaveDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
