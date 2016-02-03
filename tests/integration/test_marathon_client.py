@@ -1,3 +1,4 @@
+import time
 import pytest
 
 import uuid
@@ -27,6 +28,7 @@ def test_create_and_destory_trivial_app(client):
     client.create_app(app_id, marathon.MarathonApp(cmd='sleep 3600', mem=16, cpus=1, instances=5))
     app = client.get_app(app_id)
     assert app.id == '/' + app_id
+    time.sleep(4)
 
     def test_kill():
         app = client.get_app(app_id)
