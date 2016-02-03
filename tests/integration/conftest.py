@@ -138,7 +138,7 @@ class MesosSlaveDockerContainer(AbstractDockerContainer):
 
     def build_container(self):
         self._container = self.docker_client.create_container(
-            command='--master=zk://127.0.0.1:2181/mesos --hostname=127.0.0.1'
+            command='--master=zk://127.0.0.1:2181/mesos --hostname=127.0.0.1',
             image=self.full_image_name,
             environment=self.environment,
             host_config=create_host_config(
