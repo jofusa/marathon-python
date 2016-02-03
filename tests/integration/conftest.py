@@ -161,6 +161,7 @@ def zookeeper_container(docker_client):
     container = ZookeeperDockerContainer(docker_client)
     container.start()
     time.sleep(2)
+    print(container.log)
 
     yield container
     container.kill()
@@ -173,6 +174,7 @@ def mesos_master_container(docker_client):
     container = MesosMasterDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
+    print(container.log)
 
     yield container
     container.kill()
@@ -185,6 +187,7 @@ def mesos_slave_container(docker_client):
     container = MesosSlaveDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
+    print(container.log)
 
     yield container
     container.kill()
@@ -196,6 +199,7 @@ def marathon_container(docker_client, mesos_master_container, mesos_slave_contai
     container = MarathonDockerContainer(docker_client, tag=MARATHONVERSION)
     container.start()
     time.sleep(4)
+    print(container.log)
 
     yield container
     container.kill()
