@@ -122,7 +122,7 @@ class MesosMasterDockerContainer(AbstractDockerContainer):
 
     def build_container(self):
         self._container = self.docker_client.create_container(
-            command='--zk=zk://127.0.0.1:2181/mesos',
+            command='--zk=zk://127.0.0.1:2181/mesos --work_dir=/tmp/ --quorum=1',
             image=self.full_image_name,
             environment=self.environment,
             host_config=create_host_config(
@@ -152,7 +152,7 @@ class MarathonDockerContainer(AbstractDockerContainer):
     network_mode = 'host'
     env = {
         'MARATHON_MASTER': '127.0.0.1:5050',
-        'MARATHON_HTTP_PORT': 8081
+        'MARATHON_HTTP_PORT': 8082
     }
 
 

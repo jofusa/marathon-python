@@ -7,7 +7,7 @@ from utils import retry
 
 @pytest.fixture(scope='function')
 def client(marathon_container):
-    client = marathon.MarathonClient('http://localhost:8081')
+    client = marathon.MarathonClient('http://localhost:8082')
 
     def ensure_connection():
         assert client.get_info()
