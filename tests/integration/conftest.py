@@ -161,7 +161,7 @@ def zookeeper_container(docker_client):
     container = ZookeeperDockerContainer(docker_client)
     container.start()
     time.sleep(2)
-    print(container.log) 
+
     yield container
     container.kill()
 
@@ -173,7 +173,7 @@ def mesos_master_container(docker_client):
     container = MesosMasterDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
-    print(container.log) 
+
     yield container
     container.kill()
 
@@ -185,7 +185,7 @@ def mesos_slave_container(docker_client):
     container = MesosSlaveDockerContainer(docker_client, tag=MESOSVERSION)
     container.start()
     time.sleep(2)
-    print(container.log) 
+
     yield container
     container.kill()
 
@@ -196,36 +196,6 @@ def marathon_container(docker_client, mesos_master_container, mesos_slave_contai
     container = MarathonDockerContainer(docker_client, tag=MARATHONVERSION)
     container.start()
     time.sleep(4)
-    print(container.log) 
-    # def test_marathon_up():
-        # resp = requests.get('http://localhost:8081')
-        # assert resp.ok
-
-    # try:
-        # retry(test_marathon_up, retry_time=30, wait_between_tries=0.5, exception_to_retry=(requests.exceptions.ConnectionError, AssertionError))
-    # except AssertionError:
-        # container.kill()
-        # raise
 
     yield container
     container.kill()
-
-
-# @pytest.yield_fixture(scope='session')
-# def marathon_docker(docker_client, mesos_master_docker, zookeeper_docker):
-    # container = MarathonDockerContainer(docker_client)
-    # container.start()
-    # time.sleep(2)
-    # def test_marathon_up():
-        # resp = requests.get('http://localhost:8081')
-        # assert resp.ok
-
-    # try:
-        # retry(test_marathon_up, retry_time=30, wait_between_tries=0.5, exception_to_retry=(requests.exceptions.ConnectionError, AssertionError))
-    # except AssertionError:
-        # container.kill()
-        # raise
-
-    # yield container
-    # container.kill()
-

@@ -1,12 +1,10 @@
 env:
-  #- MARATHONVERSION: 0.8.1
-  #- MARATHONVERSION: 0.8.2
-  #- MARATHONVERSION: 0.9.0
-  #- MARATHONVERSION: 0.9.1
+  - MARATHONVERSION=v0.9.0 MESOSVERSION=0.22.1-1.0.ubuntu1404
+  - MARATHONVERSION=v0.9.1 MESOSVERSION=0.22.1-1.0.ubuntu1404
   - MARATHONVERSION=v0.10.0 MESOSVERSION=0.22.1-1.0.ubuntu1404
   - MARATHONVERSION=v0.10.1 MESOSVERSION=0.22.1-1.0.ubuntu1404
   - MARATHONVERSION=v0.11.0 MESOSVERSION=0.24.1-0.2.35.ubuntu1404
-
+  #- MARATHONVERSION=v0.13.1 MESOSVERSION=0.24.1-0.2.35.ubuntu1404
 
 language: python
 python:
@@ -20,17 +18,5 @@ install:
 script:
   - tox
 
-# Work around travis-ci/travis-ci#5227
-before_install:
-  - docker run hello-world
-  - docker version
-  - docker info
-  #- cat /etc/hosts # optionally check the content *before*
-  #- sudo hostname "$(hostname | cut -c1-63)"
-  #- sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
-  - cat /etc/hosts # optionally check the content *after*
-
 # Work around and avoid travis on gce as it is dog slow
 sudo: required
-#dist: precise
-#group: legacy
