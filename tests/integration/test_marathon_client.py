@@ -6,25 +6,16 @@ import marathon
 
 from utils import retry
 
-@pytest.fixture(scope='function')
-def client(marathon_container):
-    client = marathon.MarathonClient('http://localhost:8082')
-
-    def ensure_connection():
-        assert client.get_info()
-    retry(ensure_connection, exception_to_retry=(AssertionError, marathon.MarathonError))
-    return client
-
 
 @pytest.fixture(scope='function')
 def trivial_app(client):
     app_id = str(uuid.uuid4())
-    client.create_app(app_id, marathon.MarathonApp(cmd='sleep 3600', mem=16, cpus=0.1, instances=5))
+    client.create_app(app_id, marathon.MarathonApp(cmd='sleep 3600', mem=16, cpus=0.1, instances=3))
 
     def wait_until_deployed():
         app = client.get_app(app_id)
-        assert app.tasks_running == 5
-    retry(wait_until_deployed)
+        assert app.tasks_running == 3
+    retry(wait_until_deployed, retry_time=20)
 
     app = client.get_app(app_id)
     return app
@@ -72,6 +63,7 @@ def complex_app(client):
         app = client.get_app(complex_app_name, embed_tasks=True)
         assert app.deployments
     retry(wait_until_deployed)
+
     app = client.get_app(complex_app_name, embed_tasks=True)
     return app
 
@@ -125,7 +117,7 @@ def test_kill_trivial_app(trivial_app, client):
     client.kill_task(app_id=app_id, task_id=trivial_app.tasks[0].id, scale=True)
 
     def test_app_killed_and_scaled():
-        assert client.get_app(app_id).tasks_running == 4
+        assert client.get_app(app_id).tasks_running == 2
     retry(test_app_killed_and_scaled)
 
 
