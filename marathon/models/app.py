@@ -76,7 +76,7 @@ class MarathonApp(MarathonResource):
                  max_launch_delay_seconds=None, mem=None, ports=None, require_ports=None, store_urls=None,
                  task_rate_limit=None, tasks=None, tasks_running=None, tasks_staged=None, tasks_healthy=None,
                  tasks_unhealthy=None, upgrade_strategy=None, uris=None, user=None, version=None, version_info=None,
-                 ip_address=None, fetch=None):
+                 ip_address=None, fetch=None, readiness_checks=None):
 
         # self.args = args or []
         self.accepted_resource_roles = accepted_resource_roles
@@ -134,6 +134,7 @@ class MarathonApp(MarathonResource):
         self.version_info = version_info if (isinstance(version_info, MarathonAppVersionInfo) or version_info is None) \
             else MarathonAppVersionInfo.from_json(version_info)
         self.fetch = fetch
+        self.readiness_checks = readiness_checks
 
 
 class MarathonHealthCheck(MarathonObject):
